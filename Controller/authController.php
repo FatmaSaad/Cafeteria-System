@@ -51,7 +51,7 @@ if($connect){
         if(count($errorArray)>0){
             // var_dump($errorArray);
             echo "not valid";
-            header("Location:../Views/signUp.php?error=".implode(",",$errorArray));
+            header("Location:../Views/addUser.php?error=".implode(",",$errorArray));
                 
         }
         
@@ -113,10 +113,10 @@ if($connect){
                         
                         if($result){
                             // echo "insert succeded with image";
-                            header("Location:../Views/signUp.php");
+                            header("Location:../Views/addUser.php");
                         }
                         else{
-                            header("Location:../Views/signUp.php?error=wrongEntry");
+                            header("Location:../Views/addUser.php?error=wrongEntry");
                         }
                     } 
                     
@@ -136,10 +136,10 @@ if($connect){
                 
                 if($result){
                     // echo "insert succeded without image";
-                    header("Location:../Views/signUp.php");
+                    header("Location:../Views/addUser.php");
                 }
                 else{
-                    header("Location:../Views/signUp.php?error=wrongEntry");
+                    header("Location:../Views/addUser.php?error=wrongEntry");
                 }
             }
 
