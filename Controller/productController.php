@@ -1,39 +1,13 @@
-
-
 <?php
-// session_start();
-// if(isset($_SESSION['adminName'])){
-//     if($_SESSION['adminName'] == "Admin")
-//     {
-//         $connect = mysqli_connect("localhost","root","","cafeteria");
-//         if($connect)
-//         {
-//             $productData = $_POST["productName"] ;
-//             var_dump($productData) ; 
-//             .
-//             .
-//             .
-
-//         }
-
-//     }
-//     else
-//         {
-//         header("Location:login.html ");    
-//         }
-// }else
-//     {
-//     header("Location:login.html ");    
-//     }
 require_once '..' . DIRECTORY_SEPARATOR . 'config.php'; 
-
  $errorArray = [];
+ $statusMsg = [];
         if($db)
         {
             $productName = $_POST["productName"] ;
             $productPrice = $_POST["price"];
             $productCategory=$_POST["category"];
-            // $productPicture = $_POST["file"];
+            $productPicture = $_POST["file"];
             if(!isset($_POST["productName"]) || empty($productName)){
                 $errorArray[]="productName"; 
                 echo "name not set";            
@@ -46,22 +20,14 @@ require_once '..' . DIRECTORY_SEPARATOR . 'config.php';
                 $errorArray[]="productCategory";        
                 echo"cat not set";      
             }
-            // if(!isset($_POST["file"]) || empty($productPicture)){
-            //     $errorArray[]="picture";             
-            // }
-            // else
-            // {  
-                var_dump("hi");
                 // File upload path
-                $statusMsg = '';
+                
                 $targetDir = "../uploads/";
-               
                 $fileName = basename($_FILES['file']['name']);
-                //  var_dump($_FILES);
                 $targetFilePath = $targetDir.$fileName;
                 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-                
-                if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])){
+                if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"]))
+                {
                     // Allow certain file formats
                     $allowTypes = array('jpg','png','jpeg','gif','pdf');
                     if(in_array($fileType, $allowTypes))
@@ -71,42 +37,55 @@ require_once '..' . DIRECTORY_SEPARATOR . 'config.php';
                         }
                         else
                         {
-                            $statusMsg = "Sorry, there was an error uploading your file.";
+                            $statusMsg []= "Sorry, there was an error uploading your file";
                        }
                     }
                     else
                     {
-                        $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+                        $statusMsg [] = "Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload";
+
                     }
                 }
                 else
                 {
-                    $statusMsg = 'Please select a file to upload.';
-                }
-                
-                // Display status message
-                echo "status msg";
-                echo $statusMsg;
-            // }    
+                    $statusMsg [] = "Please select a file to upload";
+                    
+                }   
+            $pattern ="/^[a-z]/" ;
+            if(!preg_match($pattern,$productName))
+            {
+                $errorArray []="productName" ;
+            }
             if(count($errorArray)>0)
             {
                     var_dump(count($errorArray));
-                    // var_dump("error array".$errorArray);
-                    // header("Location:../Views/addProduct.php?error=".implode(",",$errorArray));
+                    header("Location:../Views/addProduct.php?error=".implode(",",$errorArray));
+            }else if(count($statusMsg)>0)
+            {
+                header("Location:../Views/addProduct.php?imgerror=".implode(",",$statusMsg));
+
             }
             else
-            {           
-                $product = new Product();  
-                $res = $product->addProduct($productName,$productPrice,$productCategory,$fileName);
-                if($res)
-                {
-                    header("Location:../Views/addProduct.php");
-                }
-                else
-                {
-                    echo "error";
-                }
+            {          
+                $productName = trim($_POST['productName']);
+                    $product = new Product();  
+                    $res = $product->addProduct($productName,$productPrice,$productCategory,$fileName);
+                    if($res)
+                    {
+                        header("Location:../Views/addProduct.php");
+                    }
+                    else
+                    {
+                        echo "error";
+                    }
             }
+            if(isset($_GET['Did']))
+            {
+                $deletedId = $_GET['Did'];
+                $delproduct = new product();
+                $res = $delproduct->deleteProduct($deletedId);
+                var_dump($delproduct->deleteProduct($deletedId));
 
+            }
         }
 ?>
