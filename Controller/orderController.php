@@ -3,7 +3,7 @@
     if(isset($_POST['addOrder']))
     {
     var_dump($_POST);
-    $addOrder=new orders();
+    $addOrder=new order();
     $addOrder->setUserId($_POST['userId']);
     $addOrder->setRoomNumber($_POST['room_number']);
     $addOrder->setOrderNotes($_POST['order_notes']);

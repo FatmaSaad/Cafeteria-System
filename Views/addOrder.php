@@ -97,11 +97,10 @@
                                 <script>
                                     function GFG_Fun($_id) {
 
-                                        if ($_id == $pro_id) {
-
+                                        // if ($_id == $pro_id) {
                                             $('.child').clone().appendTo('#parent2');
 
-                                        }
+                                    
                                     }
                                 </script>
 
