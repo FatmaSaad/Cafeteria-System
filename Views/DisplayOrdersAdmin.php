@@ -88,13 +88,7 @@
                 }
                 function enddrag(e)
                 {
-                    e.preventDefault();
-                    if (e.target.cl=="0"){
-                        $(e.target).addClass("bg-danger");
-                    }
-                    else if(state=="1"){
-                        $(e.target).addClass("bg-success");
-                    }   
+                    
                     
                 }
                 function dropped(e) {
@@ -108,10 +102,26 @@
                     if (e.target.id=="outFordelevery"){
                         updateStatus(<?php echo $order[0]['order_id']?>,"1");
                         state="1";
+                        var children=e.target.children;
+                        for(var i=0;i<children.length;i++){
+                            if(children[i].classList[0]=="order"){
+                                children[i].className="order bg-success"
+                                console.log("alaaa");
+                                 
+                            }
+                        }
+                        
+                       
                     }
                     else if(e.target.id=="processing"){
                         updateStatus(<?php echo $order[0]['order_id']?>,"0");
                         state="0";
+                        var children=e.target.children;
+                        for(var i=0;i<children.length;i++){
+                            if(children[i].classList[0]=="order"){
+                                children[i].className="order bg-danger" 
+                            }
+                        }
                     }   
                 }
                 
@@ -120,7 +130,7 @@
                     outFordelevery.style.backgroundColor = 'maroon';
                 }
                 function overdrag(e) {
-                    if()
+                    
                     e.preventDefault();
                 }
         </script>

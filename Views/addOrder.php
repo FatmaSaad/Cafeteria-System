@@ -42,7 +42,7 @@
 
 
                     <hr class="divider">
-                    <form action="../Controller/orderController.php" method="POST" class="form-horizontal text-info">
+                    <form id="order" action="../Controller/orderController.php" method="POST" class="form-horizontal text-info">
                         <!-- Clicked Orders Section -->
                         <div style="color: brown" id="SelectedOrdersContainers">
                             <div class="form-group row">
@@ -65,7 +65,7 @@
                             <!-- Total Price -->
                             <h3>EGP <input class="col-2 btn btn-warning" type="text" value="0" name="totalPrice" readonly /> </h3>
                         </div>
-                        <input type="hidden" name="to_Price" value=`${totalPrice}`/>
+                        <!-- <input type="hidden" name="to_Price" value=`${totalPrice}`/> -->
                         <input type="hidden" name="products" />
                         <input type="hidden" name="Id" value="<?php echo $row['product_id'] ?>">
                         <br />
@@ -108,7 +108,7 @@
                     <script>
                         var arr = [];
                         var totalprice = 0;
-
+                        var totalPrice;
                         function GFG_Fun(id, price) {
                             $('#' + id).clone().appendTo('#parent2');
                             arr.push(id);
@@ -118,10 +118,11 @@
                             $('#products').append(prod);
 
                             totalprice += price;
+
                             // console.log(price);
-                            // console.log(totalprice);
-                            let totalPrice = `<input> totalprice</input>`;
-                            $('#to_Price').append(totalPrice);
+                             console.log(totalprice);
+                            totalPrice = `<input  type="hidden" name="to_Price" value="${totalprice}"/>`;
+                            $('#order').append($(totalPrice));
 
 
                             // < input class = "form-control"
@@ -131,6 +132,7 @@
                             // style = "width: 300px; height: 100px;" />
                             //document.write("< input class = 'form-control' name = 'Notes' type = 'text'placeholder = 'Enter your notes'style = 'width: 300px; height: 100px;' />");	
                         }
+                        
                     </script>
 
 
