@@ -108,9 +108,13 @@ echo "
 									<?php 
 									 
 									 foreach($order as $product){
-									   echo "<div class='card-body'>
-									   <p>{$product['product_name']}</p><br/>
-									   <p>{$product['product_amount']}</p>"
+									   echo "<div>
+									   
+									   <img src='../public/Images/{$product['image']}' width='150px' height='150px' />
+   
+									   <span class='badge badge-pill badge-warning'>{$product['price']}.'EGP'</span>
+									   <figcaption>{$product['product_name'] }</figcaption>
+								   </div>"
 									   ;
 									   
 									   echo "</div>";	

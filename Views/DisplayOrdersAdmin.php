@@ -14,13 +14,13 @@
             #container{
                 width: 90%;
                 height: 100%;
-                box-shadow: maroon 10px 10px 120px inset; 
+                box-shadow: black 10px 10px 120px inset; 
                 margin: 15px auto;
                 border-radius: 10%;
                 display:-webkit-box;
                 
             }
-            #processing, #outFordelevery, #done{
+            #processing, #outFordelevery{
                 width: 25%;
                 height: 90%;
                 margin: 20px ;
@@ -30,17 +30,6 @@
                 /* display:-webkit-box; */
                 text-align: center;
                
-            }
-            .image{
-                width: 80%;
-                height: 10%;
-                margin: 5px ;
-                padding: 5px;
-                -webkit-box-flex:1;
-                display:inline-block;
-                text-align: center;
-                transition: all 3s;
-                
             }
             img:hover{
                 transform: scale(2) rotate(360deg);
@@ -61,7 +50,6 @@
 	$arr=array();
     $result=$order1->displayOrdersAdmin(date('Y-m-d')); 
     if($result){
-        echo date('Y-m-d');
         while($row=mysqli_fetch_assoc($result)){
         $arr[]=$row;}
         $orders = array();
@@ -79,7 +67,7 @@
         <script>
         
                 function updateStatus(id,status){ $.ajax({
-                url:"../Controller/updateOrder.php/",
+                url:"../Controller/updateOrder.php",
                 data: {
                         orderId: id,
                         state:status
@@ -101,20 +89,29 @@
                 function enddrag(e)
                 {
                     e.preventDefault();
+                    if (e.target.cl=="0"){
+                        $(e.target).addClass("bg-danger");
+                    }
+                    else if(state=="1"){
+                        $(e.target).addClass("bg-success");
+                    }   
+                    
                 }
                 function dropped(e) {
                     e.preventDefault();
+                    console.log(e.target);
+                    
                     var data = e.dataTransfer.getData("myorder");
                     e.target.appendChild(document.getElementById(data));
                     e.target.appendChild(document.getElementsByName(data)[0]);
                     
-                    if (state==0){
+                    if (e.target.id=="outFordelevery"){
                         updateStatus(<?php echo $order[0]['order_id']?>,"1");
-                        
+                        state="1";
                     }
-                    else if(state==1){
+                    else if(e.target.id=="processing"){
                         updateStatus(<?php echo $order[0]['order_id']?>,"0");
-                        
+                        state="0";
                     }   
                 }
                 
@@ -123,6 +120,7 @@
                     outFordelevery.style.backgroundColor = 'maroon';
                 }
                 function overdrag(e) {
+                    if()
                     e.preventDefault();
                 }
         </script>
@@ -158,14 +156,15 @@
             if(state=="0"){ 
                    orderStructure.appendTo("#processing");
                    orderdetails.appendTo("#processing");
-                   $(".order").addClass("processingorder");
+                   $(".order").addClass("bg-danger");
             }
             else if(state=="1"){
                    orderStructure.appendTo("#outFordelevery");
-                   orderdetails.appendTo("#processing");
+                   orderdetails.appendTo("#outFordelevery");
+                   $(".order").addClass("bg-success");
             }
         
-            processingOrder = $('.processingorder');
+            processingOrder = $('.order');
             
             for(var i = 0 ; i < processingOrder.length;i++)
                 {
