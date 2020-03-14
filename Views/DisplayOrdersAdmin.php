@@ -14,18 +14,17 @@
             #container{
                 width: 90%;
                 height: 100%;
-                box-shadow: black 10px 10px 120px inset; 
+                box-shadow: lightgrey 10px 10px 120px inset; 
                 margin: 15px auto;
                 border-radius: 10%;
                 display:-webkit-box;
+                padding:20px;
                 
             }
             #processing, #outFordelevery{
                 width: 25%;
                 height: 90%;
                 margin: 20px ;
-                border-radius: 15px;
-                box-shadow:gray 10px 10px 120px inset;
                 -webkit-box-flex:1;
                 /* display:-webkit-box; */
                 text-align: center;
@@ -35,7 +34,23 @@
                 transform: scale(2) rotate(360deg);
 
             }
-            
+            .header{
+                width:90%
+                height:50px;
+                border-radius: 20%;
+                text-align:center;
+                padding :10px ;
+                font: 20px tahoma;
+            }
+            .order{
+                width:90%
+                height:40px;
+                border-radius: 20%;
+                text-align:center;
+                padding :10px ;
+                font: 20px tahoma;
+                margin:10px auto;
+            }
         </style>
         
     </head>
@@ -136,8 +151,10 @@
         </script>
         <div id="container">
             <div ondrop="dropped(event)" ondragover="overdrag(event)" id="processing" class="accordion">
+            <div class="table-dark header">Processing</div>
             </div>
             <div ondrop="dropped(event)" ondragover="overdrag(event)" id="outFordelevery" class="accordion">
+            <div class="table-dark header">Out For Delevery</div>
             </div>
         <script>          
                 var orderStructure=$(`<div id='<?php echo $key?>' draggable='true' scope='row' class='order' >
