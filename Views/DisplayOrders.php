@@ -11,8 +11,8 @@
 	require './adminHeader.php';
 	require_once("../config.php"); 
 	$orders=new order();
-	$arr;
-	$result2=$orders->displayOrders(2); 
+	$arr=array();
+	$result2=$orders->displayOrders(4); 
 	
 echo "
 <body>
@@ -99,7 +99,7 @@ echo "
 							</td>
 							<td><?php 
 								if ($order[0]['state']==0) {
-								echo "<a class='btn btn-danger' href='cancel.php/{$order[0]['order_id']}'>Cancel</a>";
+								echo "<a class='btn btn-danger' href='../Controller/cancel.php/?id={$order[0]['order_id']}'>Cancel</a>";
 							}?></td>
                             </tr>
 							<?php
@@ -108,12 +108,12 @@ echo "
 									<?php 
 									 
 									 foreach($order as $product){
-									   echo "<div>
+									   echo "<div style='display:inline-block;'>
 									   
 									   <img src='../public/Images/{$product['image']}' width='150px' height='150px' />
    
-									   <span class='badge badge-pill badge-warning'>{$product['price']}.'EGP'</span>
-									   <figcaption>{$product['product_name'] }</figcaption>
+									   <span class='badge badge-pill badge-warning'>{$product['price']} EGP</span>
+									   <figcaption>{$product['product_name'] }<br/> quantity:{$product['product_amount'] }</figcaption>
 								   </div>"
 									   ;
 									   

@@ -171,9 +171,16 @@
 							  
 					<?php 
 						foreach($order as $product){?>
-							orderdetails.html(`<div class='card-body'>
-									<p><?php echo $product['product_name']?></p><br/>
-									<p><?php echo $product['product_amount']?></p></div>`)
+							orderdetails.html(` <div style='display:inline-block;'>
+									   
+									   <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
+   
+									   <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
+									   <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?></figcaption>
+								   </div>
+									   
+									   
+									  `)
 									   ;
 						
                         <?php } 

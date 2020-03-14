@@ -71,6 +71,12 @@ class order
             ");
           return $result;
             }
+
+        public function cancelOrder($order_id){
+            global $db;
+            $result=mysqli_query($db,"DELETE FROM `orders` WHERE order_id={$order_id}");
+            return $result;
+        }
         
         public function changeStatus ($status,$order_id){
             global $db;
