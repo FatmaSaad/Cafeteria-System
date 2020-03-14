@@ -14,13 +14,13 @@
             #container{
                 width: 90%;
                 height: 100%;
-                box-shadow: maroon 10px 10px 120px inset; 
+                box-shadow: black 10px 10px 120px inset; 
                 margin: 15px auto;
                 border-radius: 10%;
                 display:-webkit-box;
                 
             }
-            #processing, #outFordelevery, #done{
+            #processing, #outFordelevery{
                 width: 25%;
                 height: 90%;
                 margin: 20px ;
@@ -30,17 +30,6 @@
                 /* display:-webkit-box; */
                 text-align: center;
                
-            }
-            .image{
-                width: 80%;
-                height: 10%;
-                margin: 5px ;
-                padding: 5px;
-                -webkit-box-flex:1;
-                display:inline-block;
-                text-align: center;
-                transition: all 3s;
-                
             }
             img:hover{
                 transform: scale(2) rotate(360deg);
@@ -100,6 +89,13 @@
                 function enddrag(e)
                 {
                     e.preventDefault();
+                    if (e.target.cl=="0"){
+                        $(e.target).addClass("bg-danger");
+                    }
+                    else if(state=="1"){
+                        $(e.target).addClass("bg-success");
+                    }   
+                    
                 }
                 function dropped(e) {
                     e.preventDefault();
@@ -109,13 +105,11 @@
                     e.target.appendChild(document.getElementById(data));
                     e.target.appendChild(document.getElementsByName(data)[0]);
                     
-                    if (state=="0"){
-                        console.log(state);
+                    if (e.target.id=="outFordelevery"){
                         updateStatus(<?php echo $order[0]['order_id']?>,"1");
                         state="1";
                     }
-                    else if(state=="1"){
-                        console.log(state);
+                    else if(e.target.id=="processing"){
                         updateStatus(<?php echo $order[0]['order_id']?>,"0");
                         state="0";
                     }   
@@ -126,6 +120,7 @@
                     outFordelevery.style.backgroundColor = 'maroon';
                 }
                 function overdrag(e) {
+                    if()
                     e.preventDefault();
                 }
         </script>
@@ -161,11 +156,12 @@
             if(state=="0"){ 
                    orderStructure.appendTo("#processing");
                    orderdetails.appendTo("#processing");
-                   
+                   $(".order").addClass("bg-danger");
             }
             else if(state=="1"){
                    orderStructure.appendTo("#outFordelevery");
                    orderdetails.appendTo("#outFordelevery");
+                   $(".order").addClass("bg-success");
             }
         
             processingOrder = $('.order');
