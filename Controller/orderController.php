@@ -9,7 +9,7 @@
     $addOrder->setOrderNotes($_POST['order_notes']);
     $addOrder->setOrderDate($_POST['order_date']);
     $addOrder->setTotalPrice($_POST['total_Price']);
-   $addOrder->setOrderAmount($_POST['product_amount']);
+    $addOrder->setOrderAmount($_POST['product_amount']);
     $products =$_POST['products'];
     $OrderAmount =$_POST['product_amount'];
     echo("____________________");

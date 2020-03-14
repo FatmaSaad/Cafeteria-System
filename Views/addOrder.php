@@ -65,6 +65,9 @@
                             <!-- Total Price -->
                             <h3>EGP <input class="col-2 btn btn-warning" type="text" value="0" name="totalPrice" readonly /> </h3>
                         </div>
+                        <input type="hidden" name="to_Price" value=`${totalPrice}`/>
+                        <input type="hidden" name="products" />
+                        <input type="hidden" name="Id" value="<?php echo $row['product_id'] ?>">
                         <br />
                         <div class="form-group text-center">
                             <input class="btn btn-success" type="submit" name="addOrder" value="Order Now !!">
@@ -80,35 +83,56 @@
                     $product = new product();
 
                     $result = $product->listAllProducts();
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        ; ?>
+                    while ($row = mysqli_fetch_assoc($result)) {; ?>
+
                         <div style="display: inline-block; margin: 10px;">
                             <?php $pro_id = 0;
                             ?>
-                            <div onclick="GFG_Fun(<?php echo $row['product_id']?>)" class="parent">
-                                <div class="child" id='<?php echo $row['product_id']?>'>
-                                    <input type="hidden" tname="Id" value="<?php echo $row['product_id'] ?>">
-                                    <?php
-                                    //  $pro_id = $row['product_id'] ?>
+                            <div onclick="GFG_Fun(<?php echo $row['product_id'] ?>,<?php echo $row['price'] ?>)" class="parent">
+                                <div class="child" id='<?php echo $row['product_id'] ?>'>
+                                    <div id="container" style="display: inline-block; margin: 10px;">
+                                        <input type="hidden" name="Id" value="<?php echo $row['product_id'] ?>">
 
-                                    <img src="../public/Images/<?php echo $row['image']; ?>" width="150px" height="150px" />
-
-                                    <span class="badge badge-pill badge-warning"><?php echo $row['price']; ?> EGP</span>
-                                    <figcaption><?php echo $row['product_name'] ?></figcaption>
+                                        <?php
+                                        //  $pro_id = $row['product_id'] 
+                                        ?>
+                                        <img src="../public/Images/<?php echo $row['image']; ?>" width="150px" height="150px" />
+                                        <span class="badge badge-pill badge-warning"><?php echo $row['price']; ?> EGP</span>
+                                        <figcaption><?php echo $row['product_name'] ?></figcaption>
+                                    </div>
                                 </div>
-                                <script>
-                                    function GFG_Fun(id) {
-
-                                        // if ($_id == $pro_id) {
-                                            $('#'+id).clone().appendTo('#parent2');
-
-                                    
-                                    }
-                                </script>
 
                             </div>
                         </div>
                     <?php } ?>
+                    <script>
+                        var arr = [];
+                        var totalprice = 0;
+
+                        function GFG_Fun(id, price) {
+                            $('#' + id).clone().appendTo('#parent2');
+                            arr.push(id);
+                            console.log(id);
+                            console.log(arr);
+                            let prod = `<input>arr</input>`;
+                            $('#products').append(prod);
+
+                            totalprice += price;
+                            // console.log(price);
+                            // console.log(totalprice);
+                            let totalPrice = `<input> totalprice</input>`;
+                            $('#to_Price').append(totalPrice);
+
+
+                            // < input class = "form-control"
+                            // name = "Notes"
+                            // type = "text"
+                            // placeholder = "Enter your notes"
+                            // style = "width: 300px; height: 100px;" />
+                            //document.write("< input class = 'form-control' name = 'Notes' type = 'text'placeholder = 'Enter your notes'style = 'width: 300px; height: 100px;' />");	
+                        }
+                    </script>
+
 
                 </div>
 
