@@ -61,7 +61,6 @@
 	$arr=array();
     $result=$order1->displayOrdersAdmin(date('Y-m-d')); 
     if($result){
-        echo date('Y-m-d');
         while($row=mysqli_fetch_assoc($result)){
         $arr[]=$row;}
         $orders = array();
