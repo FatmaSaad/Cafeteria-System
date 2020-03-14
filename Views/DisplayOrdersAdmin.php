@@ -78,7 +78,7 @@
         <script>
         
                 function updateStatus(id,status){ $.ajax({
-                url:"../Controller/updateOrder.php/",
+                url:"../Controller/updateOrder.php",
                 data: {
                         orderId: id,
                         state:status
@@ -103,17 +103,21 @@
                 }
                 function dropped(e) {
                     e.preventDefault();
+                    console.log(e.target);
+                    
                     var data = e.dataTransfer.getData("myorder");
                     e.target.appendChild(document.getElementById(data));
                     e.target.appendChild(document.getElementsByName(data)[0]);
                     
-                    if (state==0){
+                    if (state=="0"){
+                        console.log(state);
                         updateStatus(<?php echo $order[0]['order_id']?>,"1");
-                        
+                        state="1";
                     }
-                    else if(state==1){
+                    else if(state=="1"){
+                        console.log(state);
                         updateStatus(<?php echo $order[0]['order_id']?>,"0");
-                        
+                        state="0";
                     }   
                 }
                 
@@ -157,14 +161,14 @@
             if(state=="0"){ 
                    orderStructure.appendTo("#processing");
                    orderdetails.appendTo("#processing");
-                   $(".order").addClass("processingorder");
+                   
             }
             else if(state=="1"){
                    orderStructure.appendTo("#outFordelevery");
-                   orderdetails.appendTo("#processing");
+                   orderdetails.appendTo("#outFordelevery");
             }
         
-            processingOrder = $('.processingorder');
+            processingOrder = $('.order');
             
             for(var i = 0 ; i < processingOrder.length;i++)
                 {

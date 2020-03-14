@@ -69,13 +69,13 @@ class order
             where  DATE(orders.date)='{$date}'
             
             ");
-           
+          return $result;
             }
         
         public function changeStatus ($status,$order_id){
             global $db;
             $result=mysqli_query($db,"UPDATE `orders` SET `state`={$status}  WHERE order_id={$order_id}");
-            echo $status;
+            echo $result;
         }
         
     //Add order
