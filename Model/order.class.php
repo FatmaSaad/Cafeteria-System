@@ -69,6 +69,9 @@ class order
             where  DATE(orders.date)='{$date}'
             
             ");
+            
+            
+            
           return $result;
             }
 

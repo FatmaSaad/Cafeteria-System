@@ -21,7 +21,7 @@
                 padding:20px;
                 
             }
-            #processing, #outFordelevery{
+            #Processing, #Orderd{
                 width: 25%;
                 height: 90%;
                 margin: 20px ;
@@ -62,9 +62,12 @@
 	require './adminHeader.php';
 	require_once("../config.php"); 
 	$order1=new order();
-	$arr=array();
-    $result=$order1->displayOrdersAdmin(date('Y-m-d')); 
+    $arr=array();
+    $datetime = new DateTime('now', new DateTimeZone('Africa/Cairo'));
+    $date=$datetime->format('Y-m-d ');
+    $result=$order1->displayOrdersAdmin($date); 
     if($result){
+       
         while($row=mysqli_fetch_assoc($result)){
         $arr[]=$row;}
         $orders = array();
@@ -114,9 +117,9 @@
                     e.target.appendChild(document.getElementById(data));
                     e.target.appendChild(document.getElementsByName(data)[0]);
                     
-                    if (e.target.id=="outFordelevery"){
-                        updateStatus(<?php echo $order[0]['order_id']?>,"1");
-                        state="1";
+                    if (e.target.id=="Processing"){
+                        updateStatus(<?php echo $order[0]['order_id']?>,"processing");
+                        state="processing";
                         var children=e.target.children;
                         for(var i=0;i<children.length;i++){
                             if(children[i].classList[0]=="order"){
@@ -128,9 +131,10 @@
                         
                        
                     }
-                    else if(e.target.id=="processing"){
-                        updateStatus(<?php echo $order[0]['order_id']?>,"0");
-                        state="0";
+                    else if(e.target.id=="Orderd"){
+                        state="ordered";
+                        updateStatus(<?php echo $order[0]['order_id']?>,state);
+                        
                         var children=e.target.children;
                         for(var i=0;i<children.length;i++){
                             if(children[i].classList[0]=="order"){
@@ -150,11 +154,11 @@
                 }
         </script>
         <div id="container">
-            <div ondrop="dropped(event)" ondragover="overdrag(event)" id="processing" class="accordion">
-            <div class="table-dark header">Processing</div>
+            <div ondrop="dropped(event)" ondragover="overdrag(event)" id="Orderd" class="accordion">
+            <div class="table-dark header">Orderd</div>
             </div>
-            <div ondrop="dropped(event)" ondragover="overdrag(event)" id="outFordelevery" class="accordion">
-            <div class="table-dark header">Out For Delevery</div>
+            <div ondrop="dropped(event)" ondragover="overdrag(event)" id="Processing" class="accordion">
+            <div class="table-dark header">Processing</div>
             </div>
         <script>          
                 var orderStructure=$(`<div id='<?php echo $key?>' draggable='true' scope='row' class='order' >
@@ -187,14 +191,14 @@
                      }}?> 
         </script>
         <script>
-            if(state=="0"){ 
-                   orderStructure.appendTo("#processing");
-                   orderdetails.appendTo("#processing");
+            if(state=="ordered"){ 
+                   orderStructure.appendTo("#Orderd");
+                   orderdetails.appendTo("#Orderd");
                    $(".order").addClass("bg-danger");
             }
-            else if(state=="1"){
-                   orderStructure.appendTo("#outFordelevery");
-                   orderdetails.appendTo("#outFordelevery");
+            else if(state=="processing"){
+                   orderStructure.appendTo("#Processing");
+                   orderdetails.appendTo("#Processing");
                    $(".order").addClass("bg-success");
             }
         
