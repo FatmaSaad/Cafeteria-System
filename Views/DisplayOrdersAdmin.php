@@ -51,12 +51,14 @@
         
     </head>
     <body>
-    
+    <script>
+        var state;
+    </script>
     <?php
 	require './adminHeader.php';
 	require_once("../config.php"); 
 	$order1=new order();
-	$arr;
+	$arr=array();
     $result=$order1->displayOrdersAdmin(date('Y-m-d')); 
     if($result){
         echo date('Y-m-d');
@@ -75,11 +77,12 @@
                
         ?>
         <script>
-                function updateStatus(id,state){ $.ajax({
+        
+                function updateStatus(id,status){ $.ajax({
                 url:"../Controller/updateOrder.php/",
                 data: {
                         orderId: id,
-                        state:state
+                        state:status
                     },
                 method:"get",
                 dataType:"Text",
@@ -91,7 +94,7 @@
             
         
 				
-        var state="<?php echo $status ?>";
+            state="<?php echo $status ?>";
                 function startdrag(e) {
                     e.dataTransfer.setData('myorder', e.target.id);
                 }
@@ -150,7 +153,8 @@
 						
                         <?php } 
                      }}?> 
-        
+        </script>
+        <script>
             if(state=="0"){ 
                    orderStructure.appendTo("#processing");
                    orderdetails.appendTo("#processing");

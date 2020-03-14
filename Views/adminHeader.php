@@ -23,7 +23,10 @@
                     <a class="nav-link" href="products.php">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="users.php">Users</a>
+                    <a class="nav-link" href="usersList.php">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="addUser.php">Add User</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="manualOrders.php">Manual Order</a>
