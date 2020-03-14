@@ -80,14 +80,16 @@
                     $product = new product();
 
                     $result = $product->listAllProducts();
-                    while ($row = mysqli_fetch_assoc($result)) { ?>
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        ; ?>
                         <div style="display: inline-block; margin: 10px;">
                             <?php $pro_id = 0;
                             ?>
-                            <div onclick="GFG_Fun(<?php echo $pro_id ?>)" class="parent">
-                                <div class="child">
+                            <div onclick="GFG_Fun(<?php echo $row['product_id']?>)" class="parent">
+                                <div class="child" id='<?php echo $row['product_id']?>'>
                                     <input type="hidden" tname="Id" value="<?php echo $row['product_id'] ?>">
-                                    <?php $pro_id = $row['product_id'] ?>
+                                    <?php
+                                    //  $pro_id = $row['product_id'] ?>
 
                                     <img src="../public/Images/<?php echo $row['image']; ?>" width="150px" height="150px" />
 
@@ -95,10 +97,10 @@
                                     <figcaption><?php echo $row['product_name'] ?></figcaption>
                                 </div>
                                 <script>
-                                    function GFG_Fun($_id) {
+                                    function GFG_Fun(id) {
 
                                         // if ($_id == $pro_id) {
-                                            $('.child').clone().appendTo('#parent2');
+                                            $('#'+id).clone().appendTo('#parent2');
 
                                     
                                     }
