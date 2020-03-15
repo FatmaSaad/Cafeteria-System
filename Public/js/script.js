@@ -17,3 +17,9 @@ $("#filter").on('click', (e) => {
         }
     }
 })
+
+filterUsers = (e) => {
+    // let options = $('option')
+    console.log(e);
+    
+}

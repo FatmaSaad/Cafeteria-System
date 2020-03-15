@@ -2,21 +2,42 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="input-group my-3 col-sm-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" >From</span>
+                <span class="input-group-text">From</span>
             </div>
             <input id="dateFrom" type="date" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
         </div>
         <div class="input-group my-3 col-sm-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" >To</span>
+                <span class="input-group-text">To</span>
             </div>
             <input id="dateTo" type="date" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
         </div>
+        <div class="input-group my-3 col-sm-3">
+            <button id="filter" class="btn btn-info"> Filter </button>
+        </div>
     </div>
-    <button id="filter" class="btn btn-info mb-4"> Filter </button>
+
+    <div class="form-group col-md-3">
+        <label for="exampleFormControlSelect1">User Name Filtration</label>
+        <select class="form-control" onchange="filterUsers(this)">
+            <option readonly> select ..</option>
+            <?php
+            require_once("../config.php");
+            $admin = new Admin();
+            $data = $admin->getOrders();
+            $ordersData = [];
+            while ($row = mysqli_fetch_assoc($data)) {
+                array_push($ordersData, $row);
+            }
+
+            foreach ($ordersData as $row) { ?>
+                <option id="<?php echo 'user' . $row['user_id'] ?>"> <?php echo $row['user_name'] ?> </option>
+            <?php } ?>
+        </select>
+    </div>
 
     <table class="table table-striped">
         <thead>
@@ -27,16 +48,8 @@
             </tr>
         </thead>
         <tbody>
-            <?php require_once("../config.php");
-            $admin = new Admin();
-            $data = $admin->getOrders();
-            $ordersData = [];
-            while ($row = mysqli_fetch_assoc($data)) {
-                array_push($ordersData, $row);
-            }
-
-            foreach ($ordersData as $row) { ?>
-                <tr id="<?php echo 'filter-'.$row['user_id'] ?>">
+            <?php foreach ($ordersData as $row) { ?>
+                <tr id="<?php echo 'filter-' . $row['user_id'] ?>">
                     <th scope="row">
                         <button type="button" class="btn border border-dark rounded-circle" data-toggle="modal" data-target="#Modal<?php echo $row['user_id'] ?>">
                             +
@@ -76,7 +89,7 @@
                                 while ($order = mysqli_fetch_assoc($orderDetails)) {
                                 ?>
                                     <tr>
-                                        <th scope="row" >
+                                        <th scope="row">
                                             <button type="button" data-toggle="collapse" data-target="#collapse<?php echo $order['order_id'] ?>" aria-expanded="true" aria-controls="collapseOne" class="btn border border-dark rounded-circle">
                                                 +
                                             </button>

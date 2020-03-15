@@ -8,7 +8,7 @@
 </head>
 <!------ Include the above in your HEAD tag ---------->
 <?php
-	require './adminHeader.php';
+	require './userHeader.php';
 	require_once("../config.php"); 
 	$orders=new order();
 	$arr=array();
