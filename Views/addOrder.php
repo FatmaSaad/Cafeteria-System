@@ -62,7 +62,7 @@
                         <hr class="divider">
                         <div style="text-align:right;margin-right:20px;color: brown">
                             <!-- Total Price -->
-                            <h3>EGP <input class="col-2 btn btn-warning" type="text" value="0" readonly /> </h3>
+                            <h3>EGP <input id="TotalPrice" class="col-2 btn btn-warning" type="text" value="0" readonly /> </h3>
                         </div>
                         <input type="hidden" name="products" />
                         <br />
@@ -107,11 +107,14 @@
                         var totalPrice;
                         var prod;
                         var prodinput;
+                        
+                        var nu=1;
+                        amou = `<span id="amou" class="badge badge-pill badge-success">${nu}</span>`;
 
                         function GFG_Fun(id, price) {
-
                             if (arr.includes(id)) {
-
+                                $('#' + id).append($(amou));
+                                document.getElementById("amou").value = ++nu;
                             } else {
                                 $('#' + id).clone().appendTo('#parent2');
                             }
@@ -122,6 +125,8 @@
                             totalprice += price;
                             totalPrice = `<input  type="hidden" name="to_Price" value="${totalprice}"/>`;
                             $('#order').append($(totalPrice));
+                            document.getElementById("TotalPrice").value = totalprice;
+
                             prodinput = `<input type="hidden" name="ordersProducts" value="${prod}"/>`
                             $('#order').append($(prodinput));
                         }
