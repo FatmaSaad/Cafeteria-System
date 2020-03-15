@@ -109,13 +109,14 @@
                         var arr = [];
                         var totalprice = 0;
                         var totalPrice;
+                        var prod;
+                        var prodinput;
                         function GFG_Fun(id, price) {
                             $('#' + id).clone().appendTo('#parent2');
                             arr.push(id);
                             console.log(id);
                             console.log(arr);
-                            let prod = `<input>arr</input>`;
-                            $('#products').append(prod);
+                            prod =arr.toString();
 
                             totalprice += price;
 
@@ -123,8 +124,8 @@
                              console.log(totalprice);
                             totalPrice = `<input  type="hidden" name="to_Price" value="${totalprice}"/>`;
                             $('#order').append($(totalPrice));
-
-
+                            prodinput=`<input type="hidden" name="ordersProducts" value="${prod}"/>`
+                            $('#order').append($(prodinput));
                             // < input class = "form-control"
                             // name = "Notes"
                             // type = "text"

@@ -121,11 +121,12 @@ echo "
 								   }?>
 								</td>
 							</tr>
-						 <?php } ?>
+						<?php } ?>
 						 
-						 </tbody>
-						 </table><?php }   
-                                    ?>
+					    </tbody>
+						</table>
+						<?php }   
+                             ?>
 					
 			</div>		
 		</div>
