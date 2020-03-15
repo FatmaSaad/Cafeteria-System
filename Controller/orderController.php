@@ -10,7 +10,9 @@
     $addOrder->setOrderDate($_POST['order_date']);
     $addOrder->setTotalPrice($_POST['total_Price']);
     $addOrder->setOrderAmount($_POST['product_amount']);
-    $products =$_POST['products'];
+    $products =$_POST['ordersProducts'];
+    $productsarr=explode(",",$products);
+    var_dump($productsarr);
     $OrderAmount =$_POST['product_amount'];
     echo("____________________");
     var_dump($addOrder);

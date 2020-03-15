@@ -37,7 +37,7 @@
             .header{
                 width:90%;
                 height:50px;
-                border-radius: 20%;
+                border-radius: 20px;
                 text-align:center;
                 padding :10px ;
                 font: 20px tahoma;
@@ -45,11 +45,11 @@
             .order{
                 width:90%;
                 height:40px;
-                border-radius: 20%;
+                border-radius: 20px;
                 text-align:center;
                 padding :10px ;
                 font: 20px tahoma;
-                margin:10px auto;
+                margin-top:10px;
             }
         </style>
         
