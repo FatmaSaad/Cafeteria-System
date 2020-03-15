@@ -55,163 +55,160 @@
         
     </head>
     <body>
-    <script>
-        var state;
-    </script>
+    
+    
     <?php
 	require './adminHeader.php';
 	require_once("../config.php"); 
 	$order1=new order();
-    $arr=array();
-    $datetime = new DateTime('now', new DateTimeZone('Africa/Cairo'));
-    $date=$datetime->format('Y-m-d ');
-    $result=$order1->displayOrdersAdmin($date); 
-    if($result){
-       
-        while($row=mysqli_fetch_assoc($result)){
-        $arr[]=$row;}
-        $orders = array();
-        foreach ( $arr as $element )
-        {
-            $orders[$element['order_id']][] = $element;
+    $arr=array();?>
+    <script>
+        var state;
+        orderid=0;
+        function updateStatus(id,status){ $.ajax({
+            url:"../Controller/updateOrder.php",
+            data: {
+                    orderId: id,
+                    state:status
+                },
+            method:"get",
+            dataType:"Text",
+            success:function(result){ 
+                console.log("success");
+                console.log(id,status);
             
-        }
-       			
-        foreach ($orders as $key=>$order)
-        {
-            $status=$order[0]['state'];
-               
-        ?>
-        <script>
-        
-                function updateStatus(id,status){ $.ajax({
-                url:"../Controller/updateOrder.php",
-                data: {
-                        orderId: id,
-                        state:status
-                    },
-                method:"get",
-                dataType:"Text",
-                success:function(result){ 
-                    console.log("success");
+            }, error:function(error){console.log(error+"");}
+            });}
+            function startdrag(e) {
+                orderid=e.target.id;
+                e.dataTransfer.setData('myorder', e.target.id);
+            }
+            function enddrag(e)
+            {   
                 
-                 }, error:function(error){console.log(error+"");}
-                });}
-            
-        
-				
-            state="<?php echo $status ?>";
-                function startdrag(e) {
-                    e.dataTransfer.setData('myorder', e.target.id);
-                }
-                function enddrag(e)
-                {
-                    
-                    
-                }
-                function dropped(e) {
-                    e.preventDefault();
-                    console.log(e.target);
-                    
-                    var data = e.dataTransfer.getData("myorder");
-                    e.target.appendChild(document.getElementById(data));
-                    e.target.appendChild(document.getElementsByName(data)[0]);
-                    
-                    if (e.target.id=="Processing"){
-                        updateStatus(<?php echo $order[0]['order_id']?>,"processing");
-                        state="processing";
-                        var children=e.target.children;
-                        for(var i=0;i<children.length;i++){
-                            if(children[i].classList[0]=="order"){
-                                children[i].className="order bg-success"
-                                console.log("alaaa");
-                                 
-                            }
+                e.preventDefault();
+                
+            }
+            function dropped(e) {
+                e.preventDefault();
+                console.log(e.target);
+                
+                var data = e.dataTransfer.getData("myorder");
+                e.target.appendChild(document.getElementById(data));
+                e.target.appendChild(document.getElementsByName(data)[0]);
+                
+                if (e.target.id=="Processing"){
+                    updateStatus(orderid,"processing");
+                    state="processing";
+                    var children=e.target.children;
+                    for(var i=0;i<children.length;i++){
+                        if(children[i].classList[0]=="order"){
+                            children[i].className="order bg-success"
+                            
                         }
-                        
-                       
                     }
-                    else if(e.target.id=="Orderd"){
-                        state="ordered";
-                        updateStatus(<?php echo $order[0]['order_id']?>,state);
-                        
-                        var children=e.target.children;
-                        for(var i=0;i<children.length;i++){
-                            if(children[i].classList[0]=="order"){
-                                children[i].className="order bg-danger" 
-                            }
-                        }
-                    }   
-                }
-                
-                function enterdrag(e) {
-                    e.preventDefault();
-                    outFordelevery.style.backgroundColor = 'maroon';
-                }
-                function overdrag(e) {
                     
-                    e.preventDefault();
+                
                 }
-        </script>
-        <div id="container">
+                else if(e.target.id=="Orderd"){
+                    state="ordered";
+                    updateStatus(orderid,"ordered");
+                    
+                    var children=e.target.children;
+                    for(var i=0;i<children.length;i++){
+                        if(children[i].classList[0]=="order"){
+                            children[i].className="order bg-danger" 
+                        }
+                    }
+                }   
+            }
+            
+            function enterdrag(e) {
+                e.preventDefault();
+                
+            }
+            function overdrag(e) {
+                
+                e.preventDefault();
+            }
+    </script>
+    <div id="container">
             <div ondrop="dropped(event)" ondragover="overdrag(event)" id="Orderd" class="accordion">
             <div class="table-dark header">Orderd</div>
             </div>
             <div ondrop="dropped(event)" ondragover="overdrag(event)" id="Processing" class="accordion">
             <div class="table-dark header">Processing</div>
             </div>
-        <script>          
-                var orderStructure=$(`<div id='<?php echo $key?>' draggable='true' scope='row' class='order' >
-									<?php
-									echo
-									"<button type='button' data-toggle='collapse' data-target='#collapse{$key}' aria-expanded='true' aria-controls='#collapse{$key}' class='btn border border-dark rounded-circle'>
-                                        +
-                                    </button>";
-									 echo $order[0]['user_name'];?>
-                            </div >` )
-									 
-               
-				var orderdetails=$(" <div name='<?php echo $key?>' id='collapse<?php echo $key?>' class=' collapse' aria-labelledby='heading<?php echo $key?>' data-parent='#accordion'>");
-							  
-					<?php 
-						foreach($order as $product){?>
-							orderdetails.html(` <div style='display:inline-block;'>
-									   
-									   <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
-   
-									   <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
-									   <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?></figcaption>
-								   </div>
-									   
-									   
-									  `)
-									   ;
-						
-                        <?php } 
-                     }}?> 
-        </script>
-        <script>
-            if(state=="ordered"){ 
-                   orderStructure.appendTo("#Orderd");
-                   orderdetails.appendTo("#Orderd");
-                   $(".order").addClass("bg-danger");
-            }
-            else if(state=="processing"){
-                   orderStructure.appendTo("#Processing");
-                   orderdetails.appendTo("#Processing");
-                   $(".order").addClass("bg-success");
-            }
+    <?php
+            $datetime = new DateTime('now', new DateTimeZone('Africa/Cairo'));
+        $date=$datetime->format('Y-m-d ');
+        $result=$order1->displayOrdersAdmin($date); 
+        if($result){
         
-            processingOrder = $('.order');
+            while($row=mysqli_fetch_assoc($result)){
+            $arr[]=$row;}
+            $orders = array();
+            foreach ( $arr as $element )
+            {
+                $orders[$element['order_id']][] = $element;
+                
+            }
+                    
             
-            for(var i = 0 ; i < processingOrder.length;i++)
-                {
-                    console.log(processingOrder[i]);
-                    processingOrder[i].addEventListener('dragstart', startdrag);
-                    processingOrder[i].addEventListener('dragend', enddrag);
-                }
+            ?> 
+     <script>  
+     <?php foreach ($orders as $key=>$order)
+            {
+                $status=$order[0]['state'];
 
-        </script>           
+    ?>      
+                state="<?php echo $status ?>";  
+                var orderStructure=$(`<div id='<?php echo $key;?>' draggable='true' on dragend='enddrag(e)' scope='row' class='order' >
+                            <button type='button' data-toggle='collapse' data-target='#collapse<?php echo $key?>' aria-expanded='true' aria-controls='#collapse<?php echo $key?>' class='btn border border-dark rounded-circle'>
+                                 +
+                            </button>
+                                <?php echo $order[0]['user_name'];?>
+                            </div >` )
+                                        
+           
+                var orderdetails=$(" <div name='<?php echo $key?>' id='collapse<?php echo $key?>' class=' collapse' aria-labelledby='heading<?php echo $key?>' data-parent='#accordion'>");
+                
+                if(state=="ordered"){ 
+                    console.log("pppp");
+                    orderStructure.appendTo("#Orderd");
+                    orderdetails.appendTo("#Orderd");
+                    $("#<?php echo $key;?>").addClass("bg-danger");
+                }
+                else if(state=="processing"){
+                    console.log("p");
+                    orderStructure.appendTo("#Processing");
+                    orderdetails.appendTo("#Processing");
+                    $("#<?php echo $key;?>").addClass("bg-success");
+                }                
+                        <?php 
+                            foreach($order as $product){?>
+                                productt=$(` <div style='display:inline-block;'>
+                                        
+                                        <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
+    
+                                        <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
+                                        <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?></figcaption>
+                                    </div>`)
+                            orderdetails.append(productt);        
+               
+                processingOrder = $('.order');
+                
+                for(var i = 0 ; i < processingOrder.length;i++)
+                    {
+                        console.log(processingOrder[i]);
+                        processingOrder[i].addEventListener('dragstart', startdrag);
+                        processingOrder[i].addEventListener('dragend', enddrag);
+                    }
+
+     
+            <?php } 
+                        }}?> 
+    </script>           
 		</div>
   </body> 
 </html> 
