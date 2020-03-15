@@ -1,61 +1,47 @@
 <?php
 
+// require '../config.php';
+
 class Admin
 {
+    private $conn;
+
     public function __construct()
     {
-        echo '<h1>hello</h1>';
-    }
-
-    public function connect()
-    {
-        $conn = new mysqli("localhost", "root", "", "cafeteria");
-        // Check connection
-        if ($conn->connect_errno) {
-            echo "Failed to connect to MySQL: " . $conn->connect_error;
-            exit();
-        };
-        return $conn;
+        global $db;
+        $this->conn = $db;
     }
 
     public function selectAll()
     {
-        $conn = $this->connect();
+
 
         $selectQuery = 'select * from clients';
-        $res = mysqli_query($conn, $selectQuery);
-
-        while ($row = mysqli_fetch_assoc($res)) {
-            var_dump($row);
-            echo '</br>';
-            echo '</br>';
-        }
+        $res = mysqli_query($this->conn, $selectQuery);
     }
 
-    public function selectChecks()
+
+    public function getOrders()
     {
-        $conn = $this->connect();
-
         $selectQuery =
-            'select * from orders join clients on orders.user_id = clients.user_id join order_product on order_product.order_id = orders.order_id join products on products.product_id = order_product.product_id';
-        $res = mysqli_query($conn, $selectQuery);
+            "SELECT sum(total_price) as total_price,user_name,clients.user_id FROM orders JOIN clients on orders.user_id = clients.user_id GROUP BY user_id";
+        $res = mysqli_query($this->conn, $selectQuery);
+        return $res;
+    }
+
+    public function getOrderedProducts($order_id)
+    {
+        $selectQuery = 
+            'SELECT products.product_name , products.image , products.price , order_product.product_amount from order_product join products on products.product_id = order_product.product_id where order_product.order_id ='.$order_id.'';
+        $res = mysqli_query($this->conn, $selectQuery);
+        return $res;
+    }
+
+    public function getOrderData($userId)
+    {
+        $selectQuery =
+            'SELECT * FROM orders where user_id = ' . $userId . '';
+        $res = mysqli_query($this->conn, $selectQuery);
+        return $res;
     }
 }
-
-/* 
-$conn = new mysqli("localhost", "root", "", "cafeteria");
-// Check connection
-if ($conn->connect_errno) {
-    echo "Failed to connect to MySQL: " . $conn->connect_error;
-    exit();
-};
-
-$selectQuery = 'select * from clients';
-$res = mysqli_query($conn, $selectQuery);
-
-while($row = mysqli_fetch_assoc($res)){
-    var_dump($row);
-    echo '</br>';
-    echo '</br>';
-}
-*/
