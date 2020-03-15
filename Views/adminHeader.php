@@ -40,7 +40,7 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <img src="https://via.placeholder.com/50.png/09f/fff" alt="">
-            <h3>user</h3>
+            <h3>Admin</h3>
         </form>
         <a class="btn btn-danger ml-2" href="../Controller/logout.php"> Log Out </a>
     </div>
