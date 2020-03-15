@@ -107,19 +107,27 @@
                         var totalPrice;
                         var prod;
                         var prodinput;
-                        
-                        var nu=1;
-                        amou = `<span id="amou" class="badge badge-pill badge-success">${nu}</span>`;
+
+                        var nu = 2;
+                        var flag =0;
 
                         function GFG_Fun(id, price) {
+                        amou = `<span id="amou" class="badge badge-pill badge-success">${nu}</span>`;
+                        console.log(flag);
                             if (arr.includes(id)) {
-                                $('#' + id).append($(amou));
-                                document.getElementById("amou").value = ++nu;
+                                if (flag == 0) {
+                                    $('#' + id).append($(amou));
+                                    flag=1;
+                                    console.log(flag);
+                                }else{
+                                    document.getElementById("amou").innerText = ++nu;
+                                }
+                                flag=1;
                             } else {
                                 $('#' + id).clone().appendTo('#parent2');
                             }
                             arr.push(id);
-                            console.log(arr);
+                            //console.log(arr);
                             prod = arr.toString();
 
                             totalprice += price;
