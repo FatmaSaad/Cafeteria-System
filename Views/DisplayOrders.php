@@ -9,7 +9,6 @@
 <!------ Include the above in your HEAD tag ---------->
 <?php
 	require './userHeader.php';
-	require_once("../config.php"); 
 	$orders=new order();
 	$arr=array();
 	$result2=$orders->displayOrders($_SESSION['id']); 

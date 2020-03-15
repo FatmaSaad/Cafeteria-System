@@ -1,3 +1,14 @@
+<?php 
+    require_once("../config.php");
+
+    if (isset($_SESSION['role'])){
+        if ($_SESSION['role'] != 'admin')
+        header("Location:./DisplayOrders.php");
+    }else{
+        header("Location:./");
+    }
+?>
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="../Public/css/style.css">
 
@@ -31,5 +42,6 @@
             <img src="https://via.placeholder.com/50.png/09f/fff" alt="">
             <h3>user</h3>
         </form>
+        <a class="btn btn-danger ml-2" href="../Controller/logout.php"> Log Out </a>
     </div>
 </nav>

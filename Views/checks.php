@@ -23,9 +23,8 @@
     <div class="form-group col-md-3">
         <label for="exampleFormControlSelect1">User Name Filtration</label>
         <select class="form-control" onchange="filterUsers(this)">
-            <option readonly> select ..</option>
+            <option disabled selected> select ..</option>
             <?php
-            require_once("../config.php");
             $admin = new Admin();
             $data = $admin->getOrders();
             $ordersData = [];
@@ -34,7 +33,7 @@
             }
 
             foreach ($ordersData as $row) { ?>
-                <option id="<?php echo 'user' . $row['user_id'] ?>"> <?php echo $row['user_name'] ?> </option>
+                <option data-id="<?php echo $row['user_id'] ?>"> <?php echo $row['user_name'] ?> </option>
             <?php } ?>
         </select>
     </div>
@@ -49,7 +48,7 @@
         </thead>
         <tbody>
             <?php foreach ($ordersData as $row) { ?>
-                <tr id="<?php echo 'filter-' . $row['user_id'] ?>">
+                <tr class="rows" id="<?php echo 'filter-' . $row['user_id'] ?>">
                     <th scope="row">
                         <button type="button" class="btn border border-dark rounded-circle" data-toggle="modal" data-target="#Modal<?php echo $row['user_id'] ?>">
                             +

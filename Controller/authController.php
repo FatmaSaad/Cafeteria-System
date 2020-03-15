@@ -167,8 +167,9 @@ if($connect){
             $password=mysqli_escape_string($connect,$_POST['password']);
             if($email == "admin@admin.com" && $password == '1234'){
                 $_SESSION['id']=123;
-                $_SESSION['username']='mahmoud';
-                header("Location:../Views/adminHome.php");
+                $_SESSION['username']='Admin';
+                $_SESSION['role']='admin';
+                header("Location:../Views/DisplayOrdersAdmin.php");
                 exit;
             }
             else{
@@ -181,16 +182,19 @@ if($connect){
                         if (password_verify($password, $row['password'])){
                             $_SESSION['id']=$row['user_id'];
                             $_SESSION['username']=$row['user_name'];
-                            header("Location:../Views/userHome.php");
+                            $_SESSION['image']=$row['image'];
+                            $_SESSION['role']='client';
+
+                            header("Location:../Views/DisplayOrders.php");
                         }
                         else{
-                            header("Location:../Views/login.php?error=wrongEntry");
+                            header("Location:../Views/?error=wrongEntry");
                         }
                         
                     }
                 }
                 else{
-                    header("Location:../Views/login.php?error=wrongEntry");
+                    header("Location:../Views/?error=wrongEntry");
                 }
 
             }
@@ -200,7 +204,7 @@ if($connect){
     else if(isset($_POST['logout'])){
         echo "session destroyed";
         session_destroy();
-        header("Location:../Views/login.php");
+        header("Location:../Views/");
     }
 }
 else{

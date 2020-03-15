@@ -59,7 +59,6 @@
     
     <?php
 	require './adminHeader.php';
-    require_once("../config.php");
      
 	$order1=new order();
     $arr=array();

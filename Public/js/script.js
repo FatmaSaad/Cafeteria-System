@@ -18,8 +18,8 @@ $("#filter").on('click', (e) => {
     }
 })
 
-filterUsers = (e) => {
-    // let options = $('option')
-    console.log(e);
-    
+filterUsers = () => {
+    let id = $("option:selected").attr('data-id')
+    $('.rows').hide();
+    $(`#filter-${id}`).show();
 }

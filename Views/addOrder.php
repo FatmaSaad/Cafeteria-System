@@ -1,4 +1,3 @@
-<?php require_once '..' . DIRECTORY_SEPARATOR . 'config.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
