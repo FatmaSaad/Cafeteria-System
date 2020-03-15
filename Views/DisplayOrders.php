@@ -12,7 +12,7 @@
 	require_once("../config.php"); 
 	$orders=new order();
 	$arr=array();
-	$result2=$orders->displayOrders(1); 
+	$result2=$orders->displayOrders($_SESSION['id']); 
 	
 echo "
 <body>

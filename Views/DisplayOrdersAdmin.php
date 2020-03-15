@@ -26,7 +26,6 @@
                 height: 90%;
                 margin: 20px ;
                 -webkit-box-flex:1;
-                /* display:-webkit-box; */
                 text-align: center;
                
             }
@@ -59,9 +58,11 @@
     
     <?php
 	require './adminHeader.php';
-	require_once("../config.php"); 
+    require_once("../config.php");
+     
 	$order1=new order();
-    $arr=array();?>
+    $arr=array();
+    ?>
     <script>
         var state;
         orderid=0;
@@ -77,29 +78,28 @@
                 console.log("success");
                 console.log(id,status);
             
-            }, error:function(error){console.log(error+"");}
-            });}
+            },
+            error:function(error){console.log(error+"");}
+            });
+            }
             function startdrag(e) {
                 orderid=e.target.id;
                 e.dataTransfer.setData('myorder', e.target.id);
             }
-            function enddrag(e)
-            {   
-                
-                e.preventDefault();
-                
+            function enddrag(e) {  
+                e.preventDefault();        
             }
             function dropped(e) {
                 e.preventDefault();
-                console.log(e.target);
                 
                 var data = e.dataTransfer.getData("myorder");
                 e.target.appendChild(document.getElementById(data));
                 e.target.appendChild(document.getElementsByName(data)[0]);
                 
                 if (e.target.id=="Processing"){
+                    // send ajax call to update status as processing
                     updateStatus(orderid,"processing");
-                    state="processing";
+                    //color updated orders (green)
                     var children=e.target.children;
                     for(var i=0;i<children.length;i++){
                         if(children[i].classList[0]=="order"){
@@ -111,9 +111,9 @@
                 
                 }
                 else if(e.target.id=="Orderd"){
-                    state="ordered";
+                    //send ajax call to update status as orderded
                     updateStatus(orderid,"ordered");
-                    
+                    // color updated orders (red)
                     var children=e.target.children;
                     for(var i=0;i<children.length;i++){
                         if(children[i].classList[0]=="order"){
@@ -124,11 +124,10 @@
             }
             
             function enterdrag(e) {
-                e.preventDefault();
-                
+                e.preventDefault();          
             }
-            function overdrag(e) {
-                
+
+            function overdrag(e) {    
                 e.preventDefault();
             }
     </script>
@@ -140,75 +139,70 @@
             <div class="table-dark header">Processing</div>
             </div>
     <?php
-            $datetime = new DateTime('now', new DateTimeZone('Africa/Cairo'));
-        $date=$datetime->format('Y-m-d ');
-        $result=$order1->displayOrdersAdmin($date); 
-        if($result){
         
-            while($row=mysqli_fetch_assoc($result)){
-            $arr[]=$row;}
-            $orders = array();
-            foreach ( $arr as $element )
-            {
-                $orders[$element['order_id']][] = $element;
-                
+        $datetime = new DateTime('now', new DateTimeZone('Africa/Cairo'));
+        $date=$datetime->format('Y-m-d ');
+        //display orders that happend today
+        $result=$order1->displayOrdersAdmin($date); 
+        if($result) {
+        
+            while($row=mysqli_fetch_assoc($result)) {
+                $arr[]=$row;
             }
-                    
-            
-            ?> 
-     <script>  
-     <?php foreach ($orders as $key=>$order)
-            {
-                $status=$order[0]['state'];
+            $orders = array();
 
-    ?>      
-                state="<?php echo $status ?>";  
-                var orderStructure=$(`<div id='<?php echo $key;?>' draggable='true' on dragend='enddrag(e)' scope='row' class='order' >
-                            <button type='button' data-toggle='collapse' data-target='#collapse<?php echo $key?>' aria-expanded='true' aria-controls='#collapse<?php echo $key?>' class='btn border border-dark rounded-circle'>
-                                 +
-                            </button>
-                                <?php echo $order[0]['user_name'];?>
-                            </div >` )
-                                        
+            foreach ( $arr as $element ) {
+                $orders[$element['order_id']][] = $element;        
+            }
            
+    ?> 
+     <script>  
+        <?php
+        foreach ($orders as $key=>$order) {
+            $status=$order[0]['state'];
+        ?>      
+            state="<?php echo $status ?>";  
+            var orderStructure=$(
+               `<div id='<?php echo $key;?>' draggable='true' on dragend='enddrag(e)' scope='row' class='order' >
+                    <button type='button' data-toggle='collapse' data-target='#collapse<?php echo $key?>' aria-expanded='true' aria-controls='#collapse<?php echo $key?>' class='btn border border-dark rounded-circle'>
+                        +
+                    </button>
+                    <?php echo $order[0]['user_name'];?>
+                </div >` );
+                                        
                 var orderdetails=$(" <div name='<?php echo $key?>' id='collapse<?php echo $key?>' class=' collapse' aria-labelledby='heading<?php echo $key?>' data-parent='#accordion'>");
                 
-                if(state=="ordered"){ 
-                    console.log("pppp");
+                if(state=="ordered") { 
                     orderStructure.appendTo("#Orderd");
                     orderdetails.appendTo("#Orderd");
                     $("#<?php echo $key;?>").addClass("bg-danger");
                 }
-                else if(state=="processing"){
-                    console.log("p");
+                else if(state=="processing") {
                     orderStructure.appendTo("#Processing");
                     orderdetails.appendTo("#Processing");
                     $("#<?php echo $key;?>").addClass("bg-success");
                 }                
-                        <?php 
-                            foreach($order as $product){?>
-                                productt=$(` <div style='display:inline-block;'>
-                                        
-                                        <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
-    
-                                        <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
-                                        <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?></figcaption>
-                                    </div>`)
-                            orderdetails.append(productt);        
-               
-                processingOrder = $('.order');
-                
-                for(var i = 0 ; i < processingOrder.length;i++)
-                    {
-                        console.log(processingOrder[i]);
-                        processingOrder[i].addEventListener('dragstart', startdrag);
-                        processingOrder[i].addEventListener('dragend', enddrag);
+                <?php 
+                    foreach($order as $product){?>
+                        productt=$(`
+                            <div style='display:inline-block;'>         
+                                <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
+                                <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
+                                <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?></figcaption>
+                            </div>`)
+                        orderdetails.append(productt);        
+                    <?php
+                    }?> 
+                    allOrders = $('.order');
+                    for(var i = 0 ; i < allOrders.length;i++) {
+                        allOrders[i].addEventListener('dragstart', startdrag);
+                        allOrders[i].addEventListener('dragend', enddrag);
                     }
-
-     
-            <?php } 
-                        }}?> 
+        <?php 
+            }
+        }
+        ?> 
     </script>           
-		</div>
+	</div>
   </body> 
 </html> 
