@@ -112,17 +112,25 @@
                         var flag =0;
 
                         function GFG_Fun(id, price) {
-                        amou = `<span id="amou" class="badge badge-pill badge-success">${nu}</span>`;
+                        amou = `<span id="amou${id}" class="badge badge-pill badge-success"></span>`;
                         console.log(flag);
                             if (arr.includes(id)) {
-                                if (flag == 0) {
+                                if (!document.getElementById("amou"+id)) {
+                                    nu=2;
+                                    
                                     $('#' + id).append($(amou));
-                                    flag=1;
-                                    console.log(flag);
+                                    document.getElementById("amou"+id).innerText = nu;
+
+                                    // flag=1;
+                                    
+                                    // console.log(flag);
+                                    
+                                   
                                 }else{
-                                    document.getElementById("amou").innerText = ++nu;
+                                    document.getElementById("amou"+id).innerText = ++nu;
+                                   
                                 }
-                                flag=1;
+                                
                             } else {
                                 $('#' + id).clone().appendTo('#parent2');
                             }
