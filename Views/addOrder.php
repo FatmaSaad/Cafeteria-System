@@ -47,7 +47,7 @@
                             <div class="form-group row">
                                 <label for="" class="offset-sm-1 col-sm-2 control-label">Room</label>
                                 <div class="col-sm-6">
-                                    <input class="form-control onRuntime" name="room" type="number" placeholder="Room" style="width: 100px;" />
+                                    <input class="form-control onRuntime" name="room_number" type="number" placeholder="Room" style="width: 100px;" />
 
                                 </div>
                             </div>
@@ -56,17 +56,15 @@
                         <div style="color: brown" class="form-group row">
                             <label for="" class="offset-sm-1 col-sm-2 control-label">Notes</label>
                             <div class="col-sm-6">
-                                <input class="form-control" name="Notes" type="text" placeholder="Enter your notes" style="width: 300px; height: 100px;" />
+                                <input class="form-control" name="order_notes" type="text" placeholder="Enter your notes" style="width: 300px; height: 100px;" />
                             </div>
                         </div>
                         <hr class="divider">
                         <div style="text-align:right;margin-right:20px;color: brown">
                             <!-- Total Price -->
-                            <h3>EGP <input class="col-2 btn btn-warning" type="text" value="0" name="totalPrice" readonly /> </h3>
+                            <h3>EGP <input class="col-2 btn btn-warning" type="text" value="0" readonly /> </h3>
                         </div>
-                        <!-- <input type="hidden" name="to_Price" value=`${totalPrice}`/> -->
                         <input type="hidden" name="products" />
-                        <input type="hidden" name="Id" value="<?php echo $row['product_id'] ?>">
                         <br />
                         <div class="form-group text-center">
                             <input class="btn btn-success" type="submit" name="addOrder" value="Order Now !!">
@@ -93,7 +91,6 @@
                                         <input type="hidden" name="Id" value="<?php echo $row['product_id'] ?>">
 
                                         <?php
-                                        //  $pro_id = $row['product_id'] 
                                         ?>
                                         <img src="../public/Images/<?php echo $row['image']; ?>" width="150px" height="150px" />
                                         <span class="badge badge-pill badge-warning"><?php echo $row['price']; ?> EGP</span>
@@ -110,29 +107,24 @@
                         var totalPrice;
                         var prod;
                         var prodinput;
+
                         function GFG_Fun(id, price) {
-                            $('#' + id).clone().appendTo('#parent2');
+
+                            if (arr.includes(id)) {
+
+                            } else {
+                                $('#' + id).clone().appendTo('#parent2');
+                            }
                             arr.push(id);
-                            console.log(id);
                             console.log(arr);
-                            prod =arr.toString();
+                            prod = arr.toString();
 
                             totalprice += price;
-
-                            // console.log(price);
-                             console.log(totalprice);
                             totalPrice = `<input  type="hidden" name="to_Price" value="${totalprice}"/>`;
                             $('#order').append($(totalPrice));
-                            prodinput=`<input type="hidden" name="ordersProducts" value="${prod}"/>`
+                            prodinput = `<input type="hidden" name="ordersProducts" value="${prod}"/>`
                             $('#order').append($(prodinput));
-                            // < input class = "form-control"
-                            // name = "Notes"
-                            // type = "text"
-                            // placeholder = "Enter your notes"
-                            // style = "width: 300px; height: 100px;" />
-                            //document.write("< input class = 'form-control' name = 'Notes' type = 'text'placeholder = 'Enter your notes'style = 'width: 300px; height: 100px;' />");	
                         }
-                        
                     </script>
 
 
