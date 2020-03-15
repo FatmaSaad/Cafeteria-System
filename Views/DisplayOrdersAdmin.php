@@ -87,6 +87,7 @@
             function startdrag(e) {
                 orderid=e.target.id;
                 e.dataTransfer.setData('myorder', e.target.id);
+                
             }
             function enddrag(e) {  
                 e.preventDefault();        
@@ -95,10 +96,11 @@
                 e.preventDefault();
                 
                 var data = e.dataTransfer.getData("myorder");
-                e.target.appendChild(document.getElementById(data));
-                e.target.appendChild(document.getElementsByName(data)[0]);
+               
                 
                 if (e.target.id=="Processing"){
+                    e.target.appendChild(document.getElementById(data));
+                    e.target.appendChild(document.getElementsByName(data)[0]);
                     // send ajax call to update status as processing
                     updateStatus(orderid,"processing");
                     //color updated orders (green)
@@ -109,8 +111,11 @@
                             
                         }
                     }
+               
                 }
                 else if(e.target.id=="Orderd"){
+                    e.target.appendChild(document.getElementById(data));
+                    e.target.appendChild(document.getElementsByName(data)[0]);
                     //send ajax call to update status as orderded
                     updateStatus(orderid,"ordered");
                     // color updated orders (red)
@@ -120,7 +125,8 @@
                             children[i].className="order bg-danger" 
                         }
                     }
-                }   
+                }
+                 
             }
             
             function enterdrag(e) {
@@ -132,15 +138,7 @@
             }
         
 
-        function enterdrag(e) {
-            e.preventDefault();
-
-        }
-
-        function overdrag(e) {
-
-            e.preventDefault();
-        }
+       
     </script>
     <div id="container">
         <div ondrop="dropped(event)" ondragover="overdrag(event)" id="Orderd" class="accordion">
@@ -174,7 +172,7 @@
         ?>      
             state="<?php echo $status ?>";  
             var orderStructure=$(
-               `<div id='<?php echo $key;?>' draggable='true' on dragend='enddrag(e)' scope='row' class='order' >
+               `<div id='<?php echo $key;?>' draggable='true'  on dragend='enddrag(e)' scope='row' class='order' >
                     <button type='button' data-toggle='collapse' data-target='#collapse<?php echo $key?>' aria-expanded='true' aria-controls='#collapse<?php echo $key?>' class='btn border border-dark rounded-circle'>
                         +
                     </button>
@@ -199,7 +197,9 @@
                             <div style='display:inline-block;'>         
                                 <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
                                 <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
-                                <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?></figcaption>
+                                <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?><br/>
+                                <h5><?php if($order[0]['order_notes'])
+                                echo $order[0]['order_notes'];?><h5></figcaption>
                             </div>`)
                         orderdetails.append(productt);        
                     <?php
