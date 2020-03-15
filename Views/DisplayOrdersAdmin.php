@@ -34,7 +34,7 @@
 
             }
             .header{
-                width:90%;
+                width:90%
                 height:50px;
                 border-radius: 20%;
                 text-align:center;
@@ -42,7 +42,7 @@
                 font: 20px tahoma;
             }
             .order{
-                width:90%;
+                width:90%
                 height:40px;
                 border-radius: 20%;
                 text-align:center;
