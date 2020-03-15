@@ -93,6 +93,9 @@
     </style>
 </head>
 <body>
+    <?php
+        include 'adminHeader.php';
+    ?>
     <div class="wrap">
         <form class="login-form" action="../Controller/userEditController.php" method="POST" enctype="multipart/form-data">
             <div class="form-header">

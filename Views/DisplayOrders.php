@@ -11,21 +11,34 @@
 	require './adminHeader.php';
 	require_once("../config.php"); 
 	$orders=new order();
-	$arr;
-	$result2=$orders->displayOrders(1); 
+	$arr=array();
+	$result2=$orders->displayOrders(4); 
 	
-echo "<body>
-	<form method='get' action='#'>
-	
-		<input type='date' name='datefrom'/>
-		<input type='date' name='dateto'/>
-		<input type='submit' value='ok' name='ok'/>		
-		</form>
+echo "
+<body>
 	<div class='box'>
-		<div class='container'>
-			<div class='row'>";
+	<div class='container'>
+	<form method='get' action='#'>
+		<div class='row'>
+		
+		<div class='input-group my-3 col-sm-3'>
+			<div class='input-group-prepend'>
+				<span class='input-group-text' id='dateFrom'>From</span>
+			</div>
+			<input type='date' class='form-control' name='datefrom' />
+			</div>
+			<div class='input-group my-3 col-sm-3'>
+				<div class='input-group-prepend'>
+					<span class='input-group-text' id='dateTo'>To</span>
+				</div>
+			<input type='date' class='form-control' name='dateto'/>
+			</div>	
+		</div>
+			<input type='submit' value='Filter' name='ok' class='btn btn-info mb-4 '/>		
+		</form>
+	";
 			
-			
+		if($result2){
 				while($row=mysqli_fetch_assoc($result2)){
 				$arr[]=$row;}
 				$orders = array();
@@ -42,8 +55,8 @@ echo "<body>
 					// var_dump($datefrom);
 					$dateto=new DateTime($_GET['dateto']);
 					if($datefrom && $dateto){
-					$filteredorders=array_filter($orders,function($item) 
-						{ 
+						$filteredorders=array_filter($orders,function($item) 
+						{	 
 							$orderdatetime=new DateTime($item[0]["date"]);
 							$orderdate= new DateTime($orderdatetime->format('Y-m-d'));
 							// var_dump($orderdate);
@@ -52,45 +65,67 @@ echo "<body>
 							else 
 							   return FALSE;  
 						}
-					);
-					}	
-				}
+						);
+				}}	
+				
 				else{
 					$filteredorders=$orders;
 					
-				}
-				echo "<div id='accordion' >";
-				foreach ($filteredorders as $key=>$order){
-					
-							
-							echo "<div class='card' class='col-sm-4'>
-							  <div class='card-header' id='heading{$key}'>
-								<h5 class='mb-0'>
-								  <button class='btn btn-link' data-toggle='collapse' data-target='#collapse{$key}' aria-expanded='true' aria-controls='collapse{$key}'>
-								  {$order[0]['date']}
-								  </button>
-								</h5>
-							  </div>
-							  <div id='collapse{$key}' class='collapse' aria-labelledby='heading{$key}' data-parent='#accordion'>";
-							  foreach($order as $product){
-								echo "<div class='card-body'>
-								<p>{$product['product_name']}</p><br/>
-								<p>{$product['product_amount']}</p>"
-								;
-								
-								echo "</div>";	
-							}
-							echo "
-							</div>
-						  </div>";
-						  
-							  			
-				}
-				echo "</div>";
-				?>
-				
-			
-			
+				}?>
+				<table class='table table-striped'>
+					<thead>
+							<tr>
+								<th scope='col'>Order Date</th>
+								<th scope='col'>Status</th>
+								<th scope='col'>Amount </th>
+								<th scope='col'>Action </th>
+							</tr>
+					</thead>
+					<tbody id='accordion'>
+				<?php			
+				foreach ($filteredorders as $key=>$order){?>
+							<tr>
+							<th scope="row">
+									<?php
+									echo
+									"<button type='button' data-toggle='collapse' data-target='#collapse{$key}' aria-expanded='true' aria-controls='collapse{$key}' class='btn border border-dark rounded-circle'>
+                                        +
+                                    </button>";
+									 echo $order[0]['date'];?>
+                            </th>
+							<td> <?php echo $order[0]['state']; ?> 
+							</td>
+							<td> <?php echo $order[0]['total_price']; ?> 
+							</td>
+							<td><?php 
+								if ($order[0]['state']==0) {
+								echo "<a class='btn btn-danger' href='../Controller/cancel.php/?id={$order[0]['order_id']}'>Cancel</a>";
+							}?></td>
+                            </tr>
+							<?php
+							 echo " <tr  id='collapse{$key}' class='collapse' aria-labelledby='heading{$key}' data-parent='#accordion'>";?>
+							  <td colspan="4">
+									<?php 
+									 
+									 foreach($order as $product){
+									   echo "<div style='display:inline-block;'>
+									   
+									   <img src='../public/Images/{$product['image']}' width='150px' height='150px' />
+   
+									   <span class='badge badge-pill badge-warning'>{$product['price']} EGP</span>
+									   <figcaption>{$product['product_name'] }<br/> quantity:{$product['product_amount'] }</figcaption>
+								   </div>"
+									   ;
+									   
+									   echo "</div>";	
+								   }?>
+								</td>
+							</tr>
+						 <?php } ?>
+						 
+						 </tbody>
+						 </table><?php }   
+                                    ?>
 					
 			</div>		
 		</div>

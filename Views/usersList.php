@@ -32,6 +32,9 @@ if ($connect) {
 </head>
 
 <body>
+    <?php
+        include 'adminHeader.php';
+    ?>
     <div class="container">
         <h3>All Clients List</h3>
         <table class="table">

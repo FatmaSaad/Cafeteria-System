@@ -5,7 +5,7 @@ if(isset($_SESSION['id'])){
     $userName = $_SESSION['username'];
 }
 else{
-    // header("Location:login.php");
+    header("Location:login.php");
 }
 //error array 
 $errorArray=[];
@@ -51,14 +51,15 @@ if($connect){
         if(count($errorArray)>0){
             // var_dump($errorArray);
             echo "not valid";
-            header("Location:../Views/signUp.php?error=".implode(",",$errorArray));
+            header("Location:../Views/addUser.php?error=".implode(",",$errorArray));
                 
         }
         
         else{
             $username=mysqli_escape_string($connect,$_POST['username']);
             $email=mysqli_escape_string($connect,$_POST['email']);
-            $password=mysqli_escape_string($connect,$_POST['password']);
+            $pass=mysqli_escape_string($connect,$_POST['password']);
+            $password = password_hash($pass, PASSWORD_DEFAULT);
             $room_number=mysqli_escape_string($connect,$_POST['room_number']);
             $ext=mysqli_escape_string($connect,$_POST['ext']);
             
@@ -112,10 +113,10 @@ if($connect){
                         
                         if($result){
                             // echo "insert succeded with image";
-                            header("Location:../Views/signUp.php");
+                            header("Location:../Views/addUser.php");
                         }
                         else{
-                            header("Location:../Views/signUp.php?error=wrongEntry");
+                            header("Location:../Views/addUser.php?error=wrongEntry");
                         }
                     } 
                     
@@ -135,10 +136,10 @@ if($connect){
                 
                 if($result){
                     // echo "insert succeded without image";
-                    header("Location:../Views/signUp.php");
+                    header("Location:../Views/addUser.php");
                 }
                 else{
-                    header("Location:../Views/signUp.php?error=wrongEntry");
+                    header("Location:../Views/addUser.php?error=wrongEntry");
                 }
             }
 
@@ -164,26 +165,29 @@ if($connect){
         else{
             $email=mysqli_escape_string($connect,$_POST['email']);
             $password=mysqli_escape_string($connect,$_POST['password']);
-            if($email == "mahmoud.ezz49@gmail.com" && $password == '1234'){
-            
+            if($email == "admin@admin.com" && $password == '1234'){
                 $_SESSION['id']=123;
                 $_SESSION['username']='mahmoud';
-                header("Location:../Views/index.php");
+                header("Location:../Views/adminHome.php");
                 exit;
             }
             else{
                 $result= mysqli_query($connect,"
                 select * from clients where
-                email='$email' && password='$password'
+                email='$email' && deleted=0
                 ");
                 if($result->num_rows > 0){
                     foreach($result as $row){
-                    
-                        $_SESSION['id']=$row['user_id'];
-                        $_SESSION['username']=$row['user_name'];
-                        header("Location:../Views/index.php");
+                        if (password_verify($password, $row['password'])){
+                            $_SESSION['id']=$row['user_id'];
+                            $_SESSION['username']=$row['user_name'];
+                            header("Location:../Views/userHome.php");
+                        }
+                        else{
+                            header("Location:../Views/login.php?error=wrongEntry");
+                        }
+                        
                     }
-                    echo "Success";
                 }
                 else{
                     header("Location:../Views/login.php?error=wrongEntry");
