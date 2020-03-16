@@ -97,7 +97,7 @@ class order
         $room_number = mysqli_escape_string($db, $this->room_number);
         $user_id = mysqli_escape_string($db, $this->user_id);
 
-        echo ($total_price);
+        //echo ($total_price);
 
         $result = mysqli_query($db, "INSERT INTO orders SET
           `order_notes` = '$order_notes',
@@ -115,7 +115,7 @@ class order
              `room_number` = $room_number,
              `user_id` = $user_id
         ");
-        echo (mysqli_insert_id($db));
+        //echo (mysqli_insert_id($db));
         return mysqli_insert_id($db);
     }
 

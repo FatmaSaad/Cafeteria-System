@@ -21,7 +21,7 @@
 <body>
     <?php
 
-    include 'userHeader.php';
+    include 'adminHeader.php';
 
     $errordata = [];
     if (isset($_GET["error"]))
@@ -43,23 +43,20 @@
                     <hr class="divider">
                     <form id="order" action="../Controller/orderController.php" method="POST" class="form-horizontal text-info">
                         <!-- Clicked Orders Section -->
-                        <div class="form-group col-md-3">
-                            <label for="exampleFormControlSelect1">User Name Filtration</label>
-                            <select class="form-control"name="user_id">
-                                <option disabled selected> select ..</option>
-                                <?php
-                                $admin = new Admin();
-                                $data = $admin->getOrders();
-                                $ordersData = [];
-                                while ($row = mysqli_fetch_assoc($data)) {
-                                    array_push($ordersData, $row);
-                                }
-
-                                foreach ($ordersData as $row) { ?>
-                                    <option data-id="<?php echo $row['user_id'] ?>"> <?php echo $row['user_name'] ?> </option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                        <select class="form-control" name="user_id">
+                            <option disabled selected> select User ..</option>
+                            <?php
+                            $admin = new Admin();
+                            $data = $admin->getOrders();
+                            $ordersData = [];
+                            while ($row = mysqli_fetch_assoc($data)) {
+                                array_push($ordersData, $row);
+                            }
+                            var_dump($row);
+                            foreach ($ordersData as $row) { ?>
+                                <option value="<?php echo $row['user_id'] ?>"> <?php echo $row['user_name'] ?> </option>
+                            <?php } ?>
+                        </select>
                         <div style="color: brown" id="SelectedOrdersContainers">
                             <div class="form-group row">
                                 <label for="" class="offset-sm-1 col-sm-2 control-label">Room</label>
@@ -129,17 +126,25 @@
                         var flag = 0;
 
                         function GFG_Fun(id, price) {
-                            amou = `<span id="amou" class="badge badge-pill badge-success">${nu}</span>`;
+                            amou = `<span id="amou${id}" class="badge badge-pill badge-success"></span>`;
                             console.log(flag);
                             if (arr.includes(id)) {
-                                if (flag == 0) {
+                                if (!document.getElementById("amou" + id)) {
+                                    nu = 2;
+
                                     $('#' + id).append($(amou));
-                                    flag = 1;
-                                    console.log(flag);
+                                    document.getElementById("amou" + id).innerText = nu;
+
+                                    // flag=1;
+
+                                    // console.log(flag);
+
+
                                 } else {
-                                    document.getElementById("amou").innerText = ++nu;
+                                    document.getElementById("amou" + id).innerText = ++nu;
+
                                 }
-                                flag = 1;
+
                             } else {
                                 $('#' + id).clone().appendTo('#parent2');
                             }
