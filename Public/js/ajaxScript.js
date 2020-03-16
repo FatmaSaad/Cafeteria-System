@@ -3,19 +3,19 @@ function getUpdateProduct(button) {
     currentRow = $(button);
 
     $.ajax({
-        // url: "http://localhost/Cafeteria-System/Controller/productController.php",
-        url:"productEdit.php",
+        url: "http://localhost/Cafeteria-System/Controller/productEdit.php",
+        // url:"productEdit.php",
         method: "GET",
         data:{"id":id},
         datatype: "json",
         success: function (response) {
             // console.log(response);
             var product = JSON.parse(response);
-            // console.log(product);
+            console.log(product);
             $("#productId").val(product.product_id);
             $("#productName").val(product.product_name);
             $("#price").val(product.price);
-            $("#selected").val(product.category);
+            $("#selected").text(product.category);
             $("#pictureShow").attr('src',`../uploads/${product.image}`);            
 
         }
@@ -32,13 +32,13 @@ $("#updateProduct").submit(function (e) {
         success: function (msg) {
             //pass ;
             // var newmsg = JSON.parse(msg);
-            console.log(msg);
+            console.log(currentRow.parents("tr").find("img"));
             
            console.log($("#productName").val());
             currentRow.parents("tr").find("td:eq(1)").text($("#productName").val());
-            currentRow.parents("tr").find("td:eq(2)").text($("#price").val());
-            currentRow.parents("tr").find("td:eq(3)").text($("#category").val());
-            // currentRow.parents("tr").find("td:eq(4)").text($("#productName").val());
+            currentRow.parents("tr").find("td:eq(3)").text($("#price").val());
+            currentRow.parents("tr").find("td:eq(2)").text($("#category").val());
+            // currentRow.parents("tr").find("img)").attr('src',`../uploads/${"#image"}`);
             $('#myModal').modal('toggle');
         },
         error: function () {

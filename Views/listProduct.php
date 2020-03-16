@@ -51,7 +51,7 @@
 										<td scope="col">
 											<?php
 											echo '
-										<img class="product-image" src="' . $imageURL . '" alt="" />;
+										<img class="product-image" id="image"src="' . $imageURL . '" alt="" />;
 											
 										</td>'?>
 										<td scope="col"><button class="btn btn-warning" data-toggle="modal" data-target="#myModal"
@@ -75,7 +75,7 @@
 										</button>
 									</div>
 									<div class="modal-body">
-										<form action="ProductUpdate.php" method="POST" id="updateProduct">
+										<form action="../Controller/ProductUpdate.php" method="POST" id="updateProduct">
 										<div class="form-group row">
 												<label for="" class="offset-1 col-3 control-label">id</label>
 												<div class="col-6">
@@ -99,10 +99,10 @@
 												<label class="col-3 offset-1 control-label">Category</label>
 												<div class="col-4">
 													<select class="form-control " id ="category"name="category">
-													<option value="" id ="selected"selected disabled hidden></option>
-														<option name="category">Cold Drinks</option>
-														<option name="category">Hot Drinks</option>
-														<option name="category">Fresh Juice</option>
+													<option id ="selected" selected disabled hidden></option>
+														<option>Cold Drinks</option>
+														<option>Hot Drinks</option>
+														<option>Fresh Juice</option>
 													</select>
 												</div>
 											</div>
@@ -110,7 +110,7 @@
 												
 												<label class="control-label col-3 offset-1">Product Picture</label> 
 												<img id = "pictureShow"></img>
-												<input type="file" name="file" class="form-control-file col-6" />
+												<input type="file" name="file"id="file" class="form-control-file col-6" />
 											</div> 
 											<div class="offset-4">
 												<button type="submit" name="submit" value="Save Changes" class="btn btn-success">ADD</button>

@@ -4,9 +4,9 @@
         var_dump($data);
         $pid =$data["productId"];
         $targetDir = "../uploads/";
-                // $fileName = basename($_FILES['file']['name']);
-                // $targetFilePath = $targetDir.$fileName;
-                // $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+                $fileName = basename($_FILES['file']['name']);
+                $targetFilePath = $targetDir.$fileName;
+                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
                 // if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"]))
                 // {
                 //     // Allow certain file formats
@@ -34,6 +34,6 @@
                 // }   
 
         $result = mysqli_query($db,"update products set product_name='{$data["productName"]}' , 
-        price ='{$data["price"]}' , category='{$data["category"]}' 
+        price ='{$data["price"]}' , category='{$data["category"]}' ,
         where product_id={$pid}");
 ?>
