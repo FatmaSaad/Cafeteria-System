@@ -1,8 +1,7 @@
 <?php
         require_once '..' . DIRECTORY_SEPARATOR . 'config.php'; 
         $data =$_REQUEST;   
-        var_dump($data);
-        $pid =$data["productId"];
+        $pid = (int) $data["productId"];
         $targetDir = "../uploads/";
                 $fileName = basename($_FILES['file']['name']);
                 $targetFilePath = $targetDir.$fileName;
