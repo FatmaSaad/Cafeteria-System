@@ -76,6 +76,10 @@ class product
             echo "error in delete";
         }
     }
+    // public function editProduct(id)
+    // {
+    //     $edit = mysqli_query($db,"update products set")
+    // }
 
 }
 

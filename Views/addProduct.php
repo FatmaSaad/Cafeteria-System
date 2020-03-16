@@ -45,6 +45,7 @@
                 <label class="col-3 offset-1 control-label">Category</label>
                 <div class="col-4">
                     <select class="form-control " name="category">
+                    <option value="" selected disabled hidden>Choose here</option>
                         <option>Cold Drinks</option>
                         <option>Hot Drinks</option>
                         <option>Fresh Juice</option>
