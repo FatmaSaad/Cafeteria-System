@@ -24,7 +24,8 @@
             }
             #Processing, #Orderd{
                 width: 25%;
-                height: 90%;
+                min-height: 500px;
+                overflow-y: auto;
                 margin: 20px ;
                 -webkit-box-flex:1;
                 text-align: center;
@@ -180,7 +181,12 @@
                 </div >` );
                                         
                 var orderdetails=$(" <div name='<?php echo $key?>' id='collapse<?php echo $key?>' class=' collapse' aria-labelledby='heading<?php echo $key?>' data-parent='#accordion'>");
-                
+
+                var ordernotes=$("<h5><?php if($order[0]['order_notes']){
+                                                    echo $order[0]['order_notes'];
+                                                }?>
+                                    <h5>");
+                   
                 if(state=="ordered") { 
                     orderStructure.appendTo("#Orderd");
                     orderdetails.appendTo("#Orderd");
@@ -192,18 +198,21 @@
                     $("#<?php echo $key;?>").addClass("bg-success");
                 }                
                 <?php 
+                    $flag=0;
                     foreach($order as $product){?>
                         productt=$(`
                             <div style='display:inline-block;'>         
                                 <img src='../public/Images/<?php echo $product['image'];?>' width='150px' height='150px' />
                                 <span class='badge badge-pill badge-warning'><?php echo $product["price"]?> EGP</span>
                                 <figcaption><?php echo $product['product_name'];?><br/> quantity:<?php echo $product['product_amount'];?><br/>
-                                <h5><?php if($order[0]['order_notes'])
-                                echo $order[0]['order_notes'];?><h5></figcaption>
+                                    
+                                </figcaption>
                             </div>`)
+                        
                         orderdetails.append(productt);        
                     <?php
-                    }?> 
+                    }?>
+                    orderdetails.append(ordernotes); 
                     allOrders = $('.order');
                     for(var i = 0 ; i < allOrders.length;i++) {
                         allOrders[i].addEventListener('dragstart', startdrag);
