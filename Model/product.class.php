@@ -60,13 +60,6 @@ class product
         $id =$_id;
         global $db ;
 
-        // $result1 = mysqli_query($db,"delete from products where product_id = '{$id}'");
-        // if($result1)
-        // {
-        //   $result2 = mysqli_query($db,"update products set deleted_product = 1 where product_id='{$id}'");
-        //   echo "$result2" ;
-    
-        // }
         $result2 = mysqli_query($db,"update products set deleted_product = 1 where product_id='{$id}'");
         var_dump($result2);
         if($result2)
@@ -76,10 +69,6 @@ class product
             echo "error in delete";
         }
     }
-    // public function editProduct(id)
-    // {
-    //     $edit = mysqli_query($db,"update products set")
-    // }
 
 }
 
