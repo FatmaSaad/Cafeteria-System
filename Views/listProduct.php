@@ -75,7 +75,7 @@
 										</button>
 									</div>
 									<div class="modal-body">
-										<form action="../Controller/ProductUpdate.php" method="POST" id="updateProduct">
+										<form action="../Controller/productUpdate.php" method="POST" id="updateProduct">
 										<div class="form-group row">
 												<label for="" class="offset-1 col-3 control-label">id</label>
 												<div class="col-6">

@@ -1,12 +1,14 @@
 <?php
         require_once '..' . DIRECTORY_SEPARATOR . 'config.php'; 
         $data =$_REQUEST;   
-        var_dump($data);
-        $pid =$data["productId"];
+        $pid = (int) $data["productId"];
         $targetDir = "../uploads/";
-                $fileName = basename($_FILES['file']['name']);
-                $targetFilePath = $targetDir.$fileName;
-                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+        $fileName = basename($_FILES['file']['name']);
+        $targetFilePath = $targetDir.$fileName;
+        $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+        $price = (int)$data["price"];
+        echo $price;
+        /*
                 // if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"]))
                 // {
                 //     // Allow certain file formats
@@ -30,10 +32,10 @@
                 // else
                 // {
                 //     $statusMsg [] = "Please select a file to upload";
-                    
+                
                 // }   
-
+        */
         $result = mysqli_query($db,"update products set product_name='{$data["productName"]}' , 
-        price ='{$data["price"]}' , category='{$data["category"]}' ,
-        where product_id={$pid}");
-?>
+        price ={$price} , category='{$data["category"]}' ,
+        where products.product_id={$pid}");
+        var_dump($result);
