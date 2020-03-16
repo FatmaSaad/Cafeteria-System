@@ -48,14 +48,46 @@ class order
     {
         global $db;
         $result = mysqli_query($db, "SELECT clients.user_name,orders.date ,orders.state,
-            products.price,order_product.product_amount
+            products.price,order_product.product_amount,products.image
             , orders.total_price ,orders.order_notes ,products.product_name,orders.order_id
             from orders inner join clients on clients.user_id=orders.user_id
             INNER JOIN order_product on order_product.order_id=orders.order_id 
             INNER JOIN products on order_product.product_id=products.product_id 
             where orders.user_id={$user_id}");
+            return $result;
+    }
+            
+
+    public function displayOrdersAdmin($date)
+    {
+        global $db;
+        $result=mysqli_query($db,"SELECT orders.date ,orders.state,
+        products.price,order_product.product_amount,products.image
+        , orders.total_price ,orders.order_notes ,products.product_name,orders.order_id,clients.user_name
+        from orders INNER JOIN order_product on order_product.order_id=orders.order_id 
+        INNER JOIN products on order_product.product_id=products.product_id 
+        INNER JOIN clients on orders.user_id =clients.user_id
+        where  DATE(orders.date)='{$date}'        
+        ");
+                
         return $result;
     }
+
+    public function cancelOrder($order_id)
+    {
+        global $db;
+        $result=mysqli_query($db,"DELETE FROM `orders` WHERE order_id={$order_id}");
+        return $result;
+    }
+        
+    public function changeStatus ($status,$order_id)
+    {
+        global $db;
+        $result=mysqli_query($db,"UPDATE `orders` SET `state`='{$status}'  WHERE order_id={$order_id}");
+        echo $result;
+            
+    }
+        
     //Add order
     public function add_Order()
     {
@@ -65,7 +97,7 @@ class order
         $room_number = mysqli_escape_string($db, $this->room_number);
         $user_id = mysqli_escape_string($db, $this->user_id);
 
-        echo ($total_price);
+        //echo ($total_price);
 
         $result = mysqli_query($db, "INSERT INTO orders SET
           `order_notes` = '$order_notes',
@@ -83,7 +115,7 @@ class order
              `room_number` = $room_number,
              `user_id` = $user_id
         ");
-        echo (mysqli_insert_id($db));
+        //echo (mysqli_insert_id($db));
         return mysqli_insert_id($db);
     }
 
@@ -105,3 +137,4 @@ class order
         echo ($result);
     }
 }
+

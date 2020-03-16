@@ -33,9 +33,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #fafafa;
     }
     .login-form{
+        box-shadow: 10px 10px 10px #b9b9b9;
         width: 350px;
         margin: 0 auto;
         border: 1px solid #ddd;

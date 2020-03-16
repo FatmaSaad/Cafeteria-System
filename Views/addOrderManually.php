@@ -21,7 +21,7 @@
 <body>
     <?php
 
-    include 'userHeader.php';
+    include 'adminHeader.php';
 
     $errordata = [];
     if (isset($_GET["error"]))
@@ -43,6 +43,20 @@
                     <hr class="divider">
                     <form id="order" action="../Controller/orderController.php" method="POST" class="form-horizontal text-info">
                         <!-- Clicked Orders Section -->
+                        <select class="form-control" name="user_id">
+                            <option disabled selected> select User ..</option>
+                            <?php
+                            $admin = new Admin();
+                            $data = $admin->getOrders();
+                            $ordersData = [];
+                            while ($row = mysqli_fetch_assoc($data)) {
+                                array_push($ordersData, $row);
+                            }
+                            var_dump($row);
+                            foreach ($ordersData as $row) { ?>
+                                <option value="<?php echo $row['user_id'] ?>"> <?php echo $row['user_name'] ?> </option>
+                            <?php } ?>
+                        </select>
                         <div style="color: brown" id="SelectedOrdersContainers">
                             <div class="form-group row">
                                 <label for="" class="offset-sm-1 col-sm-2 control-label">Room</label>
@@ -67,7 +81,7 @@
                         <input type="hidden" name="products" />
                         <br />
                         <div class="form-group text-center">
-                            <input class="btn btn-success" type="submit" name="addOrder" value="Order Now !!">
+                            <input class="btn btn-success" type="submit" name="addOrdermanually" value="Order Now !!">
                         </div>
                     </form>
                 </div>
@@ -109,28 +123,28 @@
                         var prodinput;
 
                         var nu = 2;
-                        var flag =0;
+                        var flag = 0;
 
                         function GFG_Fun(id, price) {
-                        amou = `<span id="amou${id}" class="badge badge-pill badge-success"></span>`;
-                        console.log(flag);
+                            amou = `<span id="amou${id}" class="badge badge-pill badge-success"></span>`;
+                            console.log(flag);
                             if (arr.includes(id)) {
-                                if (!document.getElementById("amou"+id)) {
-                                    nu=2;
-                                    
+                                if (!document.getElementById("amou" + id)) {
+                                    nu = 2;
+
                                     $('#' + id).append($(amou));
-                                    document.getElementById("amou"+id).innerText = nu;
+                                    document.getElementById("amou" + id).innerText = nu;
 
                                     // flag=1;
-                                    
+
                                     // console.log(flag);
-                                    
-                                   
-                                }else{
-                                    document.getElementById("amou"+id).innerText = ++nu;
-                                   
+
+
+                                } else {
+                                    document.getElementById("amou" + id).innerText = ++nu;
+
                                 }
-                                
+
                             } else {
                                 $('#' + id).clone().appendTo('#parent2');
                             }
